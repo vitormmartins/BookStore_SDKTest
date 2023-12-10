@@ -16,21 +16,25 @@ protected:
 };
 
 TEST_F(HttpClientTests, SendHttpGetSuccess) {
-std::string url = "https://www.googleapis.com/books/v1/volumes?q=ios&maxResults=20&startIndex=0";
-HttpClient::sendHttpGet(url);
+    std::string url = "https://www.googleapis.com/books/v1/volumes?q=ios&maxResults=20&startIndex=0";
+    auto actual = HttpClient::sendHttpGet(url);
 
-// Add assertions based on the expected behavior of sendHttpGet
-// For example, you can check if the response contains expected data
-// ASSERT_TRUE(...);
+    ASSERT_NE(actual, nullptr);
 }
 
 TEST_F(HttpClientTests, SendHttpGetFailure) {
-std::string url = "https://nonexistent-url";
-HttpClient::sendHttpGet(url);
+    std::string url = "https://nonexistent-url";
+    auto actual = HttpClient::sendHttpGet(url);
 
-// Add assertions based on the expected behavior of sendHttpGet in case of failure
-// For example, you can check if an error message is printed
-// ASSERT_TRUE(...);
+    ASSERT_EQ(actual, nullptr);
 }
 
-// Add more test cases as needed
+TEST_F(HttpClientTests, WriteCallbackSuccess) {
+    std::string output;
+    char contents[] = "Hello World!";
+    auto actual = HttpClient::WriteCallback(contents, 1, sizeof(contents), &output);
+
+    ASSERT_EQ(actual, sizeof(contents));
+    ASSERT_STREQ(output.c_str(), "Hello World!");
+}
+
