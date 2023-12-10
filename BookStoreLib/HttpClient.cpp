@@ -8,7 +8,7 @@ size_t HttpClient::WriteCallback(void* contents, size_t size, size_t nmemb, std:
     return total_size;
 }
 
-std::string HttpClient::sendHttpGet(const std::string& url) {
+char* HttpClient::sendHttpGet(const std::string& url) {
     CURL* curl;
     CURLcode res;
 
@@ -33,7 +33,10 @@ std::string HttpClient::sendHttpGet(const std::string& url) {
         } else {
             // Display the response
             //std::cout << "HTTP Response:\n" << response_data << std::endl;
-            return response_data;
+            auto return_data = new char[response_data.length() + 1];
+            response_data.copy(return_data, response_data.length());
+            return_data[response_data.length()] = '\0';
+            return return_data;
         }
 
         // Clean up
@@ -43,6 +46,6 @@ std::string HttpClient::sendHttpGet(const std::string& url) {
     // Global clean up
     curl_global_cleanup();
 
-    return "[]";
+    return nullptr;
 }
 
