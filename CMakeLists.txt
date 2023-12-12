@@ -20,12 +20,24 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+FetchContent_Declare(
+        httplib
+        URL
+        https://github.com/yhirose/cpp-httplib/archive/refs/tags/v0.14.2.tar.gz
+)
+FetchContent_MakeAvailable(httplib)
+
+#set(OPENSSL_ROOT_DIR )
+find_package(OpenSSL REQUIRED)
+
 enable_testing()
 
 include_directories(
         #cmake-build-debug/_deps/json-src/include
         cmake-build-debug/_deps/googletest-src/googletest/include
-        cmake-build-debug/_deps/googletest-src/googlemock/include)
+        cmake-build-debug/_deps/googletest-src/googlemock/include
+        cmake-build-debug/_deps/httplib-src
+)
 
 add_subdirectory(BookStoreLib)
 add_subdirectory(test_executable)

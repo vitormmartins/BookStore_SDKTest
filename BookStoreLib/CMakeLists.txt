@@ -2,7 +2,9 @@ add_library(BookStore_SDKTest SHARED
         HttpClient.cpp)
 
 target_link_libraries(BookStore_SDKTest PRIVATE
-        nlohmann_json::nlohmann_json)
+        nlohmann_json::nlohmann_json
+        httplib::httplib
+        OpenSSL::SSL)
 
 # Include the directories for libcurl
 find_package(CURL REQUIRED)
